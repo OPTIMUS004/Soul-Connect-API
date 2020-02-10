@@ -7,7 +7,7 @@ process.env.ENV = 'Test';
 
 const app = require('../server.js');
 
-const Product = mongoose.model('User');
+const User = mongoose.model('User');
 const agent = request.agent(app);
 
 describe('User CRUD Test', () => {
@@ -32,7 +32,7 @@ describe('User CRUD Test', () => {
     });
   });
   afterEach((done)=> {
-    Product.deleteMany({}).exec();
+    User.deleteMany({}).exec();
     done();
   });
   after((done) =>{

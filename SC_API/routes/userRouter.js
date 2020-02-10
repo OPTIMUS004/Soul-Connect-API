@@ -1,5 +1,6 @@
 const express = require('express');                                             // Import from package manager
 const userController = require('../controllers/usersController');         // Import usertscontroller file
+const passport = require('passport');
 
 function routes(User){                                                       // Routes function to be executed
   const userRouter = express.Router()                                        // Create an instance of Express Router handler
@@ -22,8 +23,9 @@ function routes(User){                                                       // 
     });
   });
   userRouter.route('/users/:userId')
-  .get((req, res) => res.json(req.user))                                     // Get one user router function 
-  .patch((req, res) => {                                                 // Replaces a particular value in the user
+  .get((req, res) => res.json(req.user))                                 // Get one user router function 
+  .patch((req, res) => {                
+    console.log('Patching. . . ')                                 // Replaces set of values in the user's details
         const { user } = req;
         if(req.body._id) {
           delete req.body._id;
@@ -37,6 +39,7 @@ function routes(User){                                                       // 
           if (err) {
             return res.send(err);
           }
+          console.log('Patched')
           return res.json(user);
         });
       })
@@ -48,44 +51,63 @@ function routes(User){                                                       // 
           return res.sendStatus(204);
         });
       })
-      .put(                                                                      // Replace all data of  the user
-        (req, res) => {
-          const { user } = req.body;
-
-            user.username = req.body.username;
-            user.password = req.body.password;
-            user.lastname = req.body.lastname;
-            user.firstname = req.body.firstname;
-            user.dob = req.body.dob;
-            user.gender = req.body.gender;
-            user.email = req.body.email;
-            user.age = req.body.age;
-            user.bodyType = req.body.bodyType;
-            user.height = req.body.height;
-            user.weight = req.body.weight;
-            user.preference = req.body.preference;
-            user.rStatus = req.body.rStatus;
-            user.genotype = req.body.genotype;
-            user.bloodGroup = req.body.bloodGroup;
-            user.kids = req.body.kids; 
-            user.educationLevel = req.body.educationLevel;
-            user.ethnicity = req.body.ethnicity;
-            user.sect = req.body.sect;
-            user.workStatus = req.body.workStatus;
-            user.favorite = req.body.favorite;
-            user.proposals = req.body.proposals;
-            user.aboutYou = req.body.aboutYou;
-            user.expectancy= req.body.expectancy; 
-            user.outlook = req.body.outlook;
-              
-            req.user.save(err => {
+  .put(                                                                      // Replace all data of  the user
+     (req, res) => {
+        const { user } = req.body;
+           user.username = req.body.username;
+          user.password = req.body.password;
+          user.lastname = req.body.lastname;
+          user.firstname = req.body.firstname;
+          user.dob = req.body.dob;
+          user.gender = req.body.gender;
+          user.email = req.body.email;
+          user.age = req.body.age;
+         user.bodyType = req.body.bodyType;
+           user.height = req.body.height;
+           user.weight = req.body.weight;
+           user.preference = req.body.preference;
+           user.rStatus = req.body.rStatus;
+         user.genotype = req.body.genotype;
+          user.bloodGroup = req.body.bloodGroup;
+          user.kids = req.body.kids; 
+          user.educationLevel = req.body.educationLevel;
+          user.ethnicity = req.body.ethnicity;
+          user.sect = req.body.sect;
+         user.workStatus = req.body.workStatus;
+         user.favorite = req.body.favorite;
+          user.proposals = req.body.proposals;
+          user.aboutYou = req.body.aboutYou;
+           user.expectancy= req.body.expectancy; 
+           user.outlook = req.body.outlook;
+             
+           req.user.save(err => {
               if (err) {
                 return res.send(err);
               }
               return res.json(user);
             })
-        })
-    
+        });
+        userRouter.route('/login')
+        .post((req, res, next) => {
+
+          passport.authenticate('local', { session: false }, ( err, passportUser, info ) => {
+            if (err){ return next(err); 
+            }if (passportUser){
+              const user = passportUser;
+              if(!user) { res.sendStatus(403); }
+              if(err) { return next(err); }
+              req.logIn(user, () => {
+                user.save();
+                return res.json(req.user);
+              }) 
+            }
+          })(req, res, next);
+      })
+      userRouter.route('/currentIdentity')
+      .get((req, res) => {
+        console.log(!!req.user);
+        res.send(req.user);
+      });
 
     return userRouter;
 }

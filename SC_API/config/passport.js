@@ -1,9 +1,8 @@
 // Dependecies
 const passport = require('passport');
-const app = require('express')
-require ('./strategies/local.strategies');
+require ('./strategies/local.strategy')();
 
-module.exports = function passportConfig() {
+function passportConfig(app) {
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -16,10 +15,6 @@ passport.serializeUser((user, done)=>{
 passport.deserializeUser((user, done)=>{
     done(null, user)
 })
-}
+};
 
-
-
-
-
-module.exports = passport
+module.exports = passportConfig;

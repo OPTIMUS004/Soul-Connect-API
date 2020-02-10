@@ -10,12 +10,13 @@ function usersController (User) {
          !req.body.gender ||
          !req.body.email) {
         res.status(400);
-        console.log(err);
         return res.send('Invalid Credentials');
       }else{
-      user.save();
-      res.status(201);
-      return res.json(user);
+        req.login(user, () => {
+          user.save();
+          res.status(201);
+          return res.json(req.user); 
+        });
       }
     }
     function get (req, res) {
@@ -25,12 +26,16 @@ function usersController (User) {
       }
       User.find(query, (err, users) => {
         if (err) {
-          console.log(err);
           return res.send(err);
         }
-        console.log(users);
-        return res.json(users);
-      }) 
+        const returnUsers = users.map((user) => {
+          const newUser = user.toJSON();
+          newUser.links = {};
+          newUser.links.self = `http://${req.headers.host}/api/users/${user._id}`;
+          return newUser;
+        });
+        return res.json(returnUsers);
+      })
     }
     return { post, get };
 } 
