@@ -59,7 +59,7 @@ io.on('connection', (client) => {
 app.get('/', (req, res) => {                                    // Response for the root of the app port
   res.send('Welcome to my API!');
 });
-server.listen(3000);
+server.listen(3300);
 app.server = app.listen(port, () => {                           // Connection to app is open
   console.log(`Running on port: ${port}`);
 });
