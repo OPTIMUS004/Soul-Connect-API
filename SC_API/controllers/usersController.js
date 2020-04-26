@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt'); 
+
 function usersController (User) {
   function post(req, res) {
       const user = new User(req.body);
@@ -19,6 +21,25 @@ function usersController (User) {
         });
       }
     }
+    
+/*
+function usersController (User) {
+  function post(req, res) {
+    
+        bcrypt.hash(req.body.password, 10).then(
+          (hash) => {
+            const user = new User(req.body);
+            user.password = hash;
+          
+        req.login(user, () => {
+          user.save();
+          res.status(201);
+          return res.json(req.user); 
+        });
+      });
+      }
+ */
+
     function get (req, res) {
       const query = {};
       if( req.query.firstname ){

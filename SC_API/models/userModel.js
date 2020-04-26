@@ -1,20 +1,21 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator')
 
 const { Schema } = mongoose;
 
 const userModel = new Schema({
                  firstname:{ type: String },
                  lastname: { type: String },
-                 username: { type: String },
-                 password: { type: String },
+                 username: { type: String, required: true, unique: true },
+                 password: { type: String, required: true },
                  dob: {type: String},
                  gender: { type: String },
-                 email: { type: String },
+                 email: { type: String, required: true, unique: true },
                  height:{ type: String },
                  weight: { type: String },
                  bodyType: { type: String },
                  age: { type: Number },
-                 preference: String,
+                 preference: {type: String},
                  rStatus: { type: String },
                  genotype: { type: String },
                  bloodGroup: { type: String },
@@ -29,5 +30,7 @@ const userModel = new Schema({
                  expectancy: {type: String },
                  outlook: { type: String }
 });
+
+userModel.plugin(uniqueValidator);
 
 module.exports = mongoose.model('User', userModel)

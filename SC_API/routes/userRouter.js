@@ -89,7 +89,7 @@ function routes(User){                                                       // 
         });
         userRouter.route('/login')
         .post((req, res, next) => {
-
+          console.log('trying to login');
           passport.authenticate('local', { session: false }, ( err, passportUser, info ) => {
             if (err){ return next(err); 
             }if (passportUser){

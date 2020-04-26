@@ -49,6 +49,7 @@ app.use('/api/sendmail', mailRouter);
 
 io.on('connection', (client) => {
   console.log('User Connected');
+
   client.on('newMessage', (message)=>{
     io.emit('newMessage', message);
     console.log(message);

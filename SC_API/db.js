@@ -2,12 +2,12 @@ const mongoose = require('mongoose');                           // Makes an inst
 
 if (process.env.ENV === 'Test') {
   console.log('This is a test');
-  mongoose.connect('mongodb://localhost/_Test',
+  mongoose.connect('mongodb+srv://Integral:oluwaseun2@@we-1nlz5.mongodb.net/test?retryWrites=true&w=majority',
       { useNewUrlParser: true, 
         useUnifiedTopology: true 
       });                               
 }else{
-        mongoose.connect('mongodb://localhost/soulconnect_Users',
+        mongoose.connect('mongodb+srv://Integral:oluwaseun2@@s-1nlz5.mongodb.net/test?retryWrites=true&w=majority',
         { 
           useNewUrlParser: true, 
           useUnifiedTopology: true 
