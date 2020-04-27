@@ -42,7 +42,7 @@ app.use(bodyParser.urlencoded({extended: true}));               // Allow body pa
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session( { secret: "integralSession" } ));
-app.use(cors( { origin: 'http://localhost:4200' }));
+app.use(cors( { origin: 'https://soul-connect.netlify.app/soul-connect' }));
 app.use('/api', userRouter);                                    // Communicates the router to the app
 app.use('/api/chap', chapRouter);
 app.use('/api/sendmail', mailRouter);
@@ -57,7 +57,7 @@ io.on('connection', (client) => {
 });
 
 app.get('/', (req, res) => {                                    // Response for the root of the app port
-  res.send('Welcome to my API!');
+  res.send('<h1>Welcome to my API!</h1>');
 });
 server.listen(3300);
 app.server = app.listen(port, () => {                           // Connection to app is open
