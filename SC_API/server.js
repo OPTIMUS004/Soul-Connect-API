@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({extended: true}));               // Allow body pa
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session( { secret: "integralSession" } ));
-app.use(cors( { origin: 'https://soul-connect.netlify.app/soul-connect' }));
+app.use(cors( { origin: 'https://soul-connect.netlify.app' }));
 app.use('/api', userRouter);                                    // Communicates the router to the app
 app.use('/api/chap', chapRouter);
 app.use('/api/sendmail', mailRouter);
