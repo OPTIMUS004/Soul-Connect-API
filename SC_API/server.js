@@ -35,7 +35,9 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 
 app.use(function(req,res, next){
-  res.header("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", '*');
+  res.setHeader("Access-Control-Allow-Headers", 'Origin,X-requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader("Access-Control-Allow-Methods", 'GET, POST, PUT, DELETE,PATCH,OPTIONS');
   next();
 });
 app.use(bodyParser.urlencoded({extended: true}));               // Allow body parser to access the post requests body
@@ -57,7 +59,14 @@ io.on('connection', (client) => {
 });
 
 app.get('/', (req, res) => {                                    // Response for the root of the app port
-  res.send('<h1>Welcome to my API!</h1>');
+  res.send(`
+  <style>
+    body{color: white; background-color: #2C66B8 }
+  </style>
+  <body>
+    <h1>Welcome to my API!</h1>
+  </body>
+    `);
 });
 server.listen(3300);
 app.server = app.listen(port, () => {                           // Connection to app is open
