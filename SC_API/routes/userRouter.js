@@ -35,6 +35,7 @@ function routes(User){                                                       // 
           const value = item[1];
           user[key] = value;
         });
+        console.log(user);
         req.user.save(err => {
           if (err) {
             return res.send(err);
