@@ -20,7 +20,7 @@ app.use(function(req,res, next){
 
 app.use(bodyParser.urlencoded({extended: true}));               // Allow body parser to access the post requests body
 app.use(bodyParser.json());
-app.use(cors( { origin: 'http://localhost:4200' }));
+app.use(cors( { origin: 'https://soul-connect.netlify.app' }));
 
 
 io.on('connection', (client) => {
@@ -62,6 +62,8 @@ app.get('/', (req, res) => {                                    // Response for 
   </body>
     `);
 });
-server.listen(3300);
+server.listen(3000, () => {                           // Connection to app is open
+  console.log(`Running on port: 3000`);
+});
 
 module.exports = app;                                           // Makes it available as an export
