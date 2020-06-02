@@ -3,7 +3,7 @@ const userController = require('../controllers/usersController');         // Imp
 const passport = require('passport');
 
 function routes(User){                                                       // Routes function to be executed
-  const userRouter = express.Router()                                        // Create an instance of Express Router handler
+  const userRouter = express.Router();                                       // Create an instance of Express Router handler
   const controller = userController(User);                                   // A variable to control the routes for testing externally 
 
   userRouter.route('/users')                                                 // Api call to /api/users
@@ -24,25 +24,7 @@ function routes(User){                                                       // 
   });
   userRouter.route('/users/:userId')
   .get((req, res) => res.json(req.user))                                 // Get one user router function 
-  .patch((req, res) => {                
-    console.log('Patching. . . ')                                 // Replaces set of values in the user's details
-        const { user } = req;
-        if(req.body._id) {
-          delete req.body._id;
-        }
-        Object.entries(req.body).forEach((item) => {
-          const key = item[0];
-          const value = item[1];
-          user[key] = value;
-        });
-        req.user.save(err => {
-          if (err) {
-            return res.send(err);
-          }
-          console.log('Patched')
-          return res.json(user);
-        });
-      })
+  
   .delete((req, res) => {                                              // Deletes the user
         req.user.remove((err) => {
           if (err) {
@@ -102,7 +84,26 @@ function routes(User){                                                       // 
               }) 
             }
           })(req, res, next);
-      })
+      });
+      userRouter.route('/patch/:userId')
+      .patch((req, res) => {                
+        User.findById(req.params.userId, (err, user) => {
+          if (err) {
+            return res.send(err);
+          }
+          if (req.body._id) {
+            delete req.body._id;
+          }
+          Object.entries(req.body).forEach((item) => {
+            const key = item[0];
+            const value = item[1];
+            user[key] = value;
+          });
+          user.save();
+          console.log('Patched');
+          res.send(user);
+        });
+      });
       userRouter.route('/currentIdentity')
       .get((req, res) => {
         console.log(!!req.user);
