@@ -14,7 +14,10 @@ function usersController (User) {
         res.status(400);
         return res.send('Invalid Credentials');
       }else{
-        req.login(user, () => {
+        req.login((user, err) => {
+          if(err){
+            return res.send(err);
+          }
           user.save();
           res.status(201);
           return res.json(req.user); 

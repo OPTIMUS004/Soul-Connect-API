@@ -18,14 +18,14 @@ const Chap = require('./models/chapModel');
 const transporter = nodemailer.createTransport({
   service: "gmail.com",
   auth: {
-      user: "macbrill13",
-      pass: "macbrilla"
+      user: "macbrill13@gmail.com",
+      pass: "Oluwaseun2@"
   }
 });
 
 const userRouter = require('./routes/userRouter')(User);        // Creates an instance of roter and assigns it to
 const chapRouter = require('./routes/chapRouter')(Chap);
-const mailRouter = require('./routes/mailRoutes')(transporter);
+const mailRouter = require('./routes/mailRouter')(transporter);
 require('./config/passport.js')(app);
 
 const port = process.env.PORT || 3000;                          // imports the port from nodemon config in package.json
@@ -46,7 +46,7 @@ app.use(bodyParser.urlencoded({extended: true}));               // Allow body pa
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session( { secret: "integralSession" } ));
-app.use(cors( { origin: 'https://soul-connect.netlify.app' }));  // http://localhost:4200
+app.use(cors( { origin: 'https://soul-connect.netlify.app' }));  //  http://localhost:4200
 app.use('/api', userRouter);                                    // Communicates the router to the app
 app.use('/api/chap', chapRouter);
 app.use('/api/sendmail', mailRouter);
@@ -85,7 +85,7 @@ app.get('/', (req, res) => {                                    // Response for 
   </style>
   <body>
     <div class='content'>
-      <h1 claa='header'>Welcome SOUL CONNECT SERVER!</h1>
+      <h1 claa='header'>Welcome to SOUL CONNECT SERVER!</h1>
     <div>
   </body>
     `);
