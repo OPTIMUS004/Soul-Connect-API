@@ -23,7 +23,10 @@ function routes(User){                                                       // 
     });
   });
   userRouter.route('/users/:userId')
-  .get((req, res) => res.json(req.user))                                 // Get one user router function 
+  
+  .get((req, res) => {
+    console.log('here for a user', req.user);
+    res.json(req.user)})                                 // Get one user router function 
   
   .delete((req, res) => {                                              // Deletes the user
         req.user.remove((err) => {

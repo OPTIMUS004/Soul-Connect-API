@@ -20,6 +20,7 @@ function usersController (User) {
           }
           user.save();
           res.status(201);
+          console.log(loggedIn);
           return res.json(req.user); 
         });
       }
