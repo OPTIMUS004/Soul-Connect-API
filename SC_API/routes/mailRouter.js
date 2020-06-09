@@ -9,7 +9,7 @@ mailRouter.route('/')
    console.log(username, msg, chap)
    const mailOption = {
     from: 'macbrill13',
-    to: ['tayoola13@yahoo.com', 'tayoola90@yahoo.com', 'macbrill13@gmail.com'],
+    to: ['tayoola13@yahoo.com', 'macbrill13@gmail.com'],
     subject: `SC Client -  ${username}`,
     html: `
         <html>
